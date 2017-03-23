@@ -36,7 +36,7 @@ char	*ft_realloc(char *s, int size)
 	char	*s1;
 
 	i = 0;
-	if (ft_strlen(s) >= size)
+	if ((int)ft_strlen(s) >= size)
 		return (s);
 	s1 = ft_strnew(size + 1);
 	while (s[i] != '\0')

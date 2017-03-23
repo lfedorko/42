@@ -13,7 +13,7 @@ int count_wide(wchar_t c)
     return (0);
 }
 
-static char 		*ft_widechar_s2(wchar_t c, t_struct *form)
+static char 		*ft_widechar_s2(wchar_t c)
 {
     int		size;
     int 	key;
@@ -40,7 +40,7 @@ static char 		*ft_widechar_s2(wchar_t c, t_struct *form)
     return (s);
 }
 
-static char     *ft_record_w(wchar_t *s, t_struct *form, char *s1)
+static char     *ft_record_w(wchar_t *s, char *s1)
 {
     int i;
     char *tmp;
@@ -50,7 +50,7 @@ static char     *ft_record_w(wchar_t *s, t_struct *form, char *s1)
     tmp = s1;
     while (s[i] != '\0')
     {
-        onechar = ft_widechar_s2(s[i], form);
+        onechar = ft_widechar_s2(s[i]);
         ft_strncpy(tmp, onechar, count_wide(s[i]));
         tmp = tmp + count_wide(s[i]);
         free(onechar);
@@ -86,7 +86,7 @@ char            *ft_widechar_s(wchar_t *s, t_struct *form)
     if (tmpp2 <= form->p && form->p > 0)
         form->p = tmpp2;
     s1 = ft_strnew(len);
-    return (ft_ws(form, ft_record_w(s, form, s1)));
+    return (ft_ws(form, ft_record_w(s, s1)));
 }
 
 char	*ft_ws(t_struct *form, char *ch)
@@ -101,13 +101,13 @@ char	*ft_ws(t_struct *form, char *ch)
     f = ft_strlen(b);
     if (form->min > form->p && form->min != 0 && form->p > 0)
         f = form->min;
-    else if (form->p > form->min && form->p < ft_strlen(b))
+    else if (form->p > form->min && form->p < (int)ft_strlen(b))
         f = form->p;
-    if (form->p > ft_strlen(b))
+    if (form->p > (int)ft_strlen(b))
         form->p = 0;
     s = ft_strnew(f);
     (form->zero && !form->minus) ? ft_memset(s, '0', f) : ft_memset(s, ' ', f);
-    if (form->p < ft_strlen(b) && form->p > 0)
+    if (form->p < (int)ft_strlen(b) && form->p > 0)
         ft_memset(b + form->p, '\0', ft_strlen(b) - form->p);
     (form->minus) ? (my_strcpy(s, b)) : (my_strcpy(s + (f - ft_strlen(b)), b));
     free(ch);

@@ -6,7 +6,7 @@
 /*   By: lfedorko <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/31 15:58:50 by lfedorko          #+#    #+#             */
-/*   Updated: 2017/01/31 15:58:52 by lfedorko         ###   ########.fr       */
+/*   Updated: 2017/03/23 19:58:45 by lfedorko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int		ft_printf(const char *format, ...)
 		if (*s == '%')
 		{
 			s++;
-			i = to_struct(argp, &s);
+			i = to_struct(argp, &s, b);
 			b += i;
 		}
 		else

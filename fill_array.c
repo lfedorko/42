@@ -28,7 +28,7 @@ static void	fill_p(char **s, t_struct *form)
 	}
 	if (form->p == -1 || form->conv == 's')
 		return ;
-	if (ft_strlen(*s) - add > form->p)
+	if ((int)ft_strlen(*s) - add > form->p)
 		return ;
 	*s = ft_realloc(*s, form->p + add);
 	*s = *s + add;

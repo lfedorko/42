@@ -28,7 +28,7 @@ $(NAME): $(OBJECTS) $(LIB)libft.a
 	ranlib $(NAME)
 
 %.o: %.c
-	gcc  -c $< -o $@ -I $(LIB) -I $(LIB_INC) -I ft_printf.h
+	gcc $(CFLAGS) -c $< -o $@ -I $(LIB) -I $(LIB_INC) -I ft_printf.h
 
 $(LIB)libft.a:
 	make -C $(LIB)
