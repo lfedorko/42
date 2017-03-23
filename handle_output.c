@@ -47,6 +47,8 @@ static char	*handle_conversion(t_struct *form, va_list argp)
 		return (itoa_base(va_arg(argp, long long), 16, form->conv, 1));
 	else if (form->conv == 'c')
 		return (ft_c(form, va_arg(argp, int)));
+    else if (form->conv == 'n')
+        return(print_n(va_arg(argp, int *),form));
 	return (ft_char(form));
 }
 

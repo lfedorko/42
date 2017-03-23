@@ -115,7 +115,7 @@ static void	find_conv(t_struct *form, char *s1)
 
 }
 
-int			to_struct(va_list argp, char **s)
+int			to_struct(va_list argp, char **s, int b)
 {
 	char 			*s1;
 	t_struct 		*form;
@@ -140,6 +140,7 @@ int			to_struct(va_list argp, char **s)
 		s1++;
 	}
 	ll_hh(*s1, form);
+    form->flag = b;
 //printf("typedef struct format\n{\n	int plus =[%d]\n	int minus = [%d];\n	int sharp = [%d];\n	int space = [%d];\n	int zero = [%d];\n	int min =[%d]\n	int p = [%d]\n	char *length = [%s]\n	char conv = [%c]\n}\n",form->plus,form->minus,form->sharp,form->space,form->zero, form->min, form->p, form->len,form->conv);
 	*s = s1 - 1;
 //printf("typedef struct format\n{\n	int plus =[%d]\n	int minus = [%d];\n	int sharp = [%d];\n	int space = [%d];\n	int zero = [%d];\n	int min =[%d]\n	int p = [%d]\n	char *length = [%s]\n	char conv = [%c]\n}\n",form->plus,form->minus,form->sharp,form->space,form->zero, form->min, form->p, form->len,form->conv);

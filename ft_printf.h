@@ -43,7 +43,7 @@ char	*ft_strchr(const char *s, int c);
 char	*ft_strnew(size_t size);
 
 int				ft_printf(const char *format, ... );
-int				to_struct(va_list argp, char **s);
+int				to_struct(va_list argp, char **s, int b);
 int 			handle_output(va_list argp, t_struct *form);
 char			*itoa_b(t_struct *form, void *num, int s);
 char 			*itoa_d(t_struct *form, void *num);
@@ -65,6 +65,7 @@ void			ft_putchar0(char *str,t_struct *form);
 char 			*ft_widechar(void *i, t_struct *form);
 size_t 			ft_pow(size_t n, int p);
 char 			*print_bi(size_t val, t_struct *form);
+char            *print_n(int *type,t_struct *form);
 char 			*ft_widechar_s(wchar_t *s, t_struct *form);
 char	        *ft_ws(t_struct *form, char *ch);
 

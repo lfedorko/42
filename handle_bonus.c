@@ -32,3 +32,10 @@ char	*print_bi(size_t val, t_struct *form)
 	}
 	return (s);
 }
+
+char            *print_n(int *type,t_struct *form)
+{
+	*type = form->flag;
+	init_struct(form);
+	return (ft_strnew(1));
+}
