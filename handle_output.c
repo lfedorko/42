@@ -48,7 +48,7 @@ static char	*handle_conversion(t_struct *form, va_list argp)
 	else if (form->conv == 'c')
 		return (ft_c(form, va_arg(argp, int)));
     else if (form->conv == 'n')
-        return(print_n(va_arg(argp, int *),form));
+        return(print_n(va_arg(argp, int *), form));
 	return (ft_char(form));
 }
 

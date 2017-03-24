@@ -62,11 +62,11 @@ char 			*ft_c(t_struct *form, int ch);
 char 			*ft_s(t_struct *form, char *ch);
 void			init_struct(t_struct *form);
 void			ft_putchar0(char *str,t_struct *form);
-char 			*ft_widechar(void *i, t_struct *form);
 size_t 			ft_pow(size_t n, int p);
 char 			*print_bi(size_t val, t_struct *form);
 char            *print_n(int *type,t_struct *form);
 char 			*ft_widechar_s(wchar_t *s, t_struct *form);
 char	        *ft_ws(t_struct *form, char *ch);
+
 
 #endif

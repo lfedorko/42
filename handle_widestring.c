@@ -24,7 +24,7 @@ static char 		*ft_widechar_s2(wchar_t c)
 	if (size == 4)
 		key = 240;
 	if (size == 3)
-		key = 224);
+		key = 224;
 	if (size == 2)
 		key = 192;
 	if (size == 1)
@@ -50,11 +50,11 @@ static char	 *ft_record_w(wchar_t *s, char *s1)
 	tmp = s1;
 	while (s[i] != '\0')
 	{
-	onechar = ft_widechar_s2(s[i]);
-	ft_strncpy(tmp, onechar, count_wide(s[i]));
-	tmp = tmp + count_wide(s[i]);
-	free(onechar);
-	i++;
+		onechar = ft_widechar_s2(s[i]);
+		ft_strncpy(tmp, onechar, count_wide(s[i]));
+		tmp = tmp + count_wide(s[i]);
+		free(onechar);
+		i++;
 	}
 	return (s1);
 }
@@ -65,26 +65,29 @@ char	*ft_widechar_s(wchar_t *s, t_struct *form)
 	int i;
 	char *s1;
 	int tmpp;
-	int tmpp2;
+	int tmpp2[2];
 
 	i = 0;
 	len = 0;
-	tmpp2 = 0;
+	tmpp2[1] = -1;
+	tmpp2[0] = 0;
 	form->flag = 0;
 	if (!s)
-	return (ft_s(form,(char *)s));
+		return (ft_s(form,(char *)s));
 	if (!form->p)
-	return (ft_strnew(1));
+		return (ft_strnew(1));
 	while (s[i] != '\0')
 	{   
-	tmpp = count_wide(s[i]);
-	if (tmpp2 + tmpp <= form->p && form->p > 0)
-	tmpp2 += tmpp;
-	len += tmpp;
-	i++;
+		tmpp = count_wide(s[i]);
+		if (tmpp2[0] + tmpp <= form->p && form->p > 0 && (i - tmpp2[1] == 1)) {
+			tmpp2[0] += tmpp;
+			tmpp2[1] = i;
+		}
+		len += tmpp;
+		i++;
 	}
-	if (tmpp2 <= form->p && form->p > 0)
-	form->p = tmpp2;
+	if (tmpp2[0] < form->p && form->p > 0)
+		form->p = tmpp2[0];
 	s1 = ft_strnew(len);
 	return (ft_ws(form, ft_record_w(s, s1)));
 }
@@ -99,16 +102,16 @@ char	*ft_ws(t_struct *form, char *ch)
 	form->space = 0;
 	b = ft_strdup(ch);
 	f = ft_strlen(b);
-	if (form->min > form->p && form->min != 0 && form->p > 0)
-	f = form->min;
+	if (form->min >= form->p && form->min != 0 && form->p > 0)
+		f = form->min;
 	else if (form->p > form->min && form->p < (int)ft_strlen(b))
-	f = form->p;
+		f = form->p;
 	if (form->p > (int)ft_strlen(b))
-	form->p = 0;
+		form->p = 0;
 	s = ft_strnew(f);
 	(form->zero && !form->minus) ? ft_memset(s, '0', f) : ft_memset(s, ' ', f);
 	if (form->p < (int)ft_strlen(b) && form->p > 0)
-	ft_memset(b + form->p, '\0', ft_strlen(b) - form->p);
+		ft_memset(b + form->p, '\0', ft_strlen(b) - form->p);
 	(form->minus) ? (my_strcpy(s, b)) : (my_strcpy(s + (f - ft_strlen(b)), b));
 	free(ch);
 	free(b);

@@ -11,7 +11,6 @@ OBJECTS = to_struct.o\
 		add_functions1.o\
 		add_functions2.o\
 		fill_array.o\
-		handle_widechar.o\
 		handle_bonus.o\
 		handle_widestring.o\
 		handle_char.o

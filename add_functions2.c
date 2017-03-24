@@ -79,6 +79,7 @@ void		init_struct(t_struct *form)
 	form->zero = 0;
 	form->min = 0;
 	form->p = -1;
+	form->null = 0;
 	ft_memset(form->len, 0, sizeof(form->len));
 	form->conv = '\0';
 }
