@@ -31,14 +31,11 @@ static char	*handle_conversion(t_struct *form, va_list argp)
 		return (print_bi(va_arg(argp, size_t), form));
 	else if (find_letter("dDioOuUxX", form->conv))
 		return (define_len(form, argp));
-	//else if (form->conv == 'C'
-	//	|| (form->conv == 'c' && !ft_strcmp(form->len, "l")))
-	//	return (ft_widechar(va_arg(argp, void *), form));
 	else if (form->conv == 'c' || form->conv == 'C')
 		return (ft_c(form, va_arg(argp, int)));
 	else if (form->conv == 'S'
 		|| (form->conv == 's' && !ft_strcmp(form->len, "l")))
-		return (ft_widechar_s(va_arg(argp, wchar_t *), form));
+		return (ft_widechar_s(va_arg(argp, wchar_t *), form, 0, 0));
 	else if (form->conv == 's')
 		return (ft_s(form, va_arg(argp, char *)));
 	else if (form->conv == '%')
@@ -47,8 +44,8 @@ static char	*handle_conversion(t_struct *form, va_list argp)
 		return (itoa_base(va_arg(argp, long long), 16, form->conv, 1));
 	else if (form->conv == 'c')
 		return (ft_c(form, va_arg(argp, int)));
-    else if (form->conv == 'n')
-        return(print_n(va_arg(argp, int *), form));
+	else if (form->conv == 'n')
+		return (print_n(va_arg(argp, int *), form));
 	return (ft_char(form));
 }
 
@@ -76,11 +73,12 @@ static int	check_flags(t_struct *form, int sizestr, char *s)
 	return (compare(size, form->min));
 }
 
-int			handle_output(va_list argp, t_struct *form)
+int			handle_output(va_list argp, t_struct *form, int b)
 {
 	int		size1;
 	char	*s;
 
+	form->flag = b;
 	if (!form->conv)
 		return (0);
 	s = handle_conversion(form, argp);
@@ -95,7 +93,6 @@ int			handle_output(va_list argp, t_struct *form)
 	else if (!ft_strcmp(s, "0") && !form->p && form->min && !form->sharp)
 		s = ft_memset(s, ' ', ft_strlen(s));
 	size1 = check_flags(form, ft_strlen(s), s);
-	//printf("typedef struct format\n{\n	int plus =[%d]\n	int minus = [%d];\n	int sharp = [%d];\n	int space = [%d];\n	int zero = [%d];\n	int min =[%d]\n	int p = [%d]\n	char *length = [%s]\n	char conv = [%c]\n}\n",form->plus,form->minus,form->sharp,form->space,form->zero, form->min, form->p, form->len,form->conv);
 	fill_array(size1, s, form);
 	if (form->flag == -1 || form->flag == -2)
 		size1++;

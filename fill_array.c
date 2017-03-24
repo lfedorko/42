@@ -85,7 +85,6 @@ void		fill_array(int size, char *s, t_struct *form)
 	buff = str;
 	if (form->flag != -1)
 		str = ft_memset(str, ' ', size);
-// /	printf("typedef struct format\n{\n	int plus =[%d]\n	int minus = [%d];\n	int sharp = [%d];\n	int space = [%d];\n	int zero = [%d];\n	int min =[%d]\n	int p = [%d]\n	char *length = [%s]\n	char conv = [%c]\n}\n",form->plus,form->minus,form->sharp,form->space,form->zero, form->min, form->p, form->len,form->conv);
 	if ((form->zero && form->min && !form->minus)
 		|| (find_letter("xX", form->conv) && !ft_strcmp("0", s) && form->sharp))
 		str = ft_memset(str, '0', size);

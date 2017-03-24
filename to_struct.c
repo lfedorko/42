@@ -12,7 +12,7 @@
 
 #include "ft_printf.h"
 
-static void flags_to_struct(t_struct *form, char c, char prev)
+static void	flags_to_struct(t_struct *form, char c, char prev)
 {
 	if (c == '-')
 		form->minus = 1;
@@ -35,11 +35,7 @@ static char	*digit_to_struct(t_struct *form, char *s, va_list argp)
 		if (*s == '*')
 			form->p = va_arg(argp, int);
 		else if ((form->p = ft_atoi(s)))
-		{
-			while (*s >= '0' && *s <= '9')
-				s++;
-			s--;
-		}
+			return (iterator(s));
 		if (form->p < 0)
 			form->zero = 1;
 	}
@@ -48,11 +44,7 @@ static char	*digit_to_struct(t_struct *form, char *s, va_list argp)
 		if (*s == '*')
 			form->min = va_arg(argp, int);
 		else if ((form->min = ft_atoi(s)))
-		{
-			while (*s >= '0' && *s <= '9')
-				s++;
-			s--;
-		}
+			return (iterator(s));
 	}
 	return (s);
 }
@@ -66,7 +58,7 @@ static void	ll_hh(char c, t_struct *f)
 		l += 1;
 	else if (c == 'h')
 		h += 1;
-	if(f->flag)
+	if (f->flag)
 	{
 		if (f->len[0] == 'l')
 		{
@@ -88,14 +80,14 @@ static void	ll_hh(char c, t_struct *f)
 
 static void	find_conv(t_struct *form, char *s1)
 {
-	char s[4] = "hlzj";
+	char *s;
 
+	s = ft_strdup("hlzj");
 	if ((*s1 == 'h' || *s1 == 'l' || *s1 == 'z' || *s1 == 'j')
 		&& form->len[0] == '\0')
 	{
 		form->len[0] = *s1;
-		if ((*s1 == 'l' && *(s1 + 1) == 'l') || (*s1 == 'h' && *(s1 + 1) == 'h'))
-			form->len[1] = *(s1++);
+		record_l(&s1, form);
 	}
 	else if (*s1 == 'h' || *s1 == 'l' || *s1 == 'z' || *s1 == 'j')
 	{
@@ -103,48 +95,42 @@ static void	find_conv(t_struct *form, char *s1)
 		{
 			form->len[0] = *s1;
 			form->len[1] = '\0';
-			if ((*s1 == 'l' && *(s1 + 1) == 'l') || (*s1 == 'h' && *(s1 + 1) == 'h'))
-				form->len[1] = *(s1++);
+			record_l(&s1, form);
 		}
 	}
-	else //if ((*s1 >= 'A' && *s1 <= 'Z') || (*s1 >= 'a' && *s1 <= 'z') || *s1 == '%')
+	else
 	{
 		form->flag = 1;
 		form->conv = *s1;
 	}
-
+	free(s);
 }
 
-int			to_struct(va_list argp, char **s, int b)
+int			to_struct(va_list argp, char **s, int b, int i)
 {
-	char 			*s1;
-	t_struct 		*form;
-	int 			i;
-	
+	char		*s1;
+	t_struct	*form;
+
 	s1 = *s;
-	i = 0;
 	form = (t_struct *)malloc(sizeof(t_struct));
 	init_struct(form);
-    while (!form->flag && *s1 != '\0')
+	while (!form->flag && *s1 != '\0')
 	{
-		ll_hh(*s1,form);
+		ll_hh(*s1, form);
 		if (find_letter("+- #0", *s1))
 			flags_to_struct(form, *s1, *(s1 - 1));
-		else if ((*s1 >= '1' && *s1 <= '9') || *s1 == '*' 
-			|| ((*s1 == '.') && ((*(s1 + 1) >= '0' && *(s1 + 1) <= '9') || *(s1 + 1) == '*')))
+		else if ((*s1 >= '1' && *s1 <= '9') || *s1 == '*' || ((*s1 == '.')
+			&& ((*(s1 + 1) >= '0' && *(s1 + 1) <= '9') || *(s1 + 1) == '*')))
 			s1 = digit_to_struct(form, s1, argp);
 		else if (*s1 == '.' && !ft_isdigit(*(s1 + 1)))
 			form->p = 0;
-		else 
+		else
 			find_conv(form, s1);
 		s1++;
 	}
 	ll_hh(*s1, form);
-    form->flag = b;
-//printf("typedef struct format\n{\n	int plus =[%d]\n	int minus = [%d];\n	int sharp = [%d];\n	int space = [%d];\n	int zero = [%d];\n	int min =[%d]\n	int p = [%d]\n	char *length = [%s]\n	char conv = [%c]\n}\n",form->plus,form->minus,form->sharp,form->space,form->zero, form->min, form->p, form->len,form->conv);
 	*s = s1 - 1;
-//printf("typedef struct format\n{\n	int plus =[%d]\n	int minus = [%d];\n	int sharp = [%d];\n	int space = [%d];\n	int zero = [%d];\n	int min =[%d]\n	int p = [%d]\n	char *length = [%s]\n	char conv = [%c]\n}\n",form->plus,form->minus,form->sharp,form->space,form->zero, form->min, form->p, form->len,form->conv);
-	i = handle_output(argp, form);
+	i = handle_output(argp, form, b);
 	free(form);
 	return (i);
 }

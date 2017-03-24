@@ -27,7 +27,7 @@ int		ft_printf(const char *format, ...)
 		if (*s == '%')
 		{
 			s++;
-			i = to_struct(argp, &s, b);
+			i = to_struct(argp, &s, b, 0);
 			b += i;
 		}
 		else

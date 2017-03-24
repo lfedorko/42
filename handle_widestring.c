@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   handle_widestring.c                                :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lfedorko <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/03/24 16:42:34 by lfedorko          #+#    #+#             */
+/*   Updated: 2017/03/24 16:42:36 by lfedorko         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_printf.h"
 
-int count_wide(wchar_t c)
+int			count_wide(wchar_t c)
 {
 	if (c <= 0x7F)
 		return (1);
@@ -13,10 +25,10 @@ int count_wide(wchar_t c)
 	return (0);
 }
 
-static char 		*ft_widechar_s2(wchar_t c)
+static char	*ft_widechar_s2(wchar_t c)
 {
 	int		size;
-	int 	key;
+	int		key;
 	char	*s;
 
 	size = count_wide(c);
@@ -35,16 +47,16 @@ static char 		*ft_widechar_s2(wchar_t c)
 	{
 		s[size - 1] = ((63 & c) | 128);
 		c = c >> 6;
-	size--;
+		size--;
 	}
 	return (s);
 }
 
-static char	 *ft_record_w(wchar_t *s, char *s1)
+static char	*ft_record_w(wchar_t *s, char *s1)
 {
-	int i;
-	char *tmp;
-	char *onechar;
+	int		i;
+	char	*tmp;
+	char	*onechar;
 
 	i = 0;
 	tmp = s1;
@@ -59,27 +71,23 @@ static char	 *ft_record_w(wchar_t *s, char *s1)
 	return (s1);
 }
 
-char	*ft_widechar_s(wchar_t *s, t_struct *form)
+char		*ft_widechar_s(wchar_t *s, t_struct *form, int len, int i)
 {
-	int len;
-	int i;
-	char *s1;
-	int tmpp;
-	int tmpp2[2];
+	int		tmpp;
+	int		tmpp2[2];
 
-	i = 0;
-	len = 0;
 	tmpp2[1] = -1;
 	tmpp2[0] = 0;
 	form->flag = 0;
 	if (!s)
-		return (ft_s(form,(char *)s));
+		return (ft_s(form, (char *)s));
 	if (!form->p)
 		return (ft_strnew(1));
 	while (s[i] != '\0')
-	{   
+	{
 		tmpp = count_wide(s[i]);
-		if (tmpp2[0] + tmpp <= form->p && form->p > 0 && (i - tmpp2[1] == 1)) {
+		if (tmpp2[0] + tmpp <= form->p && form->p > 0 && (i - tmpp2[1] == 1))
+		{
 			tmpp2[0] += tmpp;
 			tmpp2[1] = i;
 		}
@@ -88,11 +96,10 @@ char	*ft_widechar_s(wchar_t *s, t_struct *form)
 	}
 	if (tmpp2[0] < form->p && form->p > 0)
 		form->p = tmpp2[0];
-	s1 = ft_strnew(len);
-	return (ft_ws(form, ft_record_w(s, s1)));
+	return (ft_ws(form, ft_record_w(s, ft_strnew(len))));
 }
 
-char	*ft_ws(t_struct *form, char *ch)
+char		*ft_ws(t_struct *form, char *ch)
 {
 	char	*s;
 	int		f;

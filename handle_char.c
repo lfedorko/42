@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   handle_char.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lfedorko <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/03/24 16:36:14 by lfedorko          #+#    #+#             */
+/*   Updated: 2017/03/24 16:36:17 by lfedorko         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_printf.h"
 
 char		*ft_char(t_struct *form)
@@ -14,7 +26,7 @@ char		*ft_char(t_struct *form)
 	return (s);
 }
 
-void			ft_putchar0(char *str, t_struct *form)
+void		ft_putchar0(char *str, t_struct *form)
 {
 	if (form->minus == 1)
 	{
@@ -28,7 +40,7 @@ void			ft_putchar0(char *str, t_struct *form)
 	}
 }
 
-static char 	*zero_char(t_struct *form)
+static char	*zero_char(t_struct *form)
 {
 	char	*s;
 	int		si;
@@ -44,7 +56,7 @@ static char 	*zero_char(t_struct *form)
 	s = ft_strnew(si);
 	if (si != 1)
 	{
-	(form->zero) ? ft_memset(s, '0', si - 1) : ft_memset(s, ' ', si - 1);
+		(form->zero) ? ft_memset(s, '0', si - 1) : ft_memset(s, ' ', si - 1);
 		form->flag = -2;
 	}
 	else

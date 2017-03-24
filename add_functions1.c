@@ -62,3 +62,10 @@ char	*record1(char *s, int i, int size)
 	}
 	return (s);
 }
+
+void	record_l(char **s1, t_struct *form)
+{
+	if ((**s1 == 'l' && **(s1 + 1) == 'l')
+		|| (**s1 == 'h' && **(s1 + 1) == 'h'))
+		form->len[1] = **(s1++);
+}
